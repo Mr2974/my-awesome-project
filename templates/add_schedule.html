@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background: #eef3f9;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 35px 40px;
+        background-color: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+        border-top: 5px solid #a0c4ff;
+    }
+
+    .form-container h2 {
+        margin-bottom: 25px;
+        color: #3b5bdb;
+        text-align: center;
+    }
+
+    .form-container form div {
+        margin-bottom: 18px;
+    }
+
+    .form-container label {
+        display: block;
+        text-align: left;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ccd6f6;
+        border-radius: 10px;
+        background-color: #f7faff;
+        font-size: 15px;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .form-container input:focus {
+        border-color: #3b5bdb;
+        background-color: #ffffff;
+        outline: none;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #3b5bdb;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+        background-color: #2f49c0;
+    }
+
+    .form-container a {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #3b5bdb;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .form-container a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Додати заняття</h2>
+
+    <form method="post" action="/add_schedule">
+        <div>
+            <label for="dt_str">Дата та час:</label>
+            <input type="datetime-local" name="dt_str" id="dt_str" required>
+        </div>
+        <div>
+            <label for="subject">Предмет:</label>
+            <input type="text" name="subject" id="subject" placeholder="Назва предмета" required>
+        </div>
+        <div>
+            <label for="student_email">Email учня:</label>
+            <input type="email" name="student_email" id="student_email" placeholder="Email учня" required>
+        </div>
+        <button type="submit">Зберегти</button>
+    </form>
+
+    <a href="/calendar">⬅ Назад до календаря</a>
+</div>
+{% endblock %}

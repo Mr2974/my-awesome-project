@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if lang == 'uk' %}Освітній портал{% else %}Educational Portal{% endif %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>{% if lang == 'uk' %}Освітній Портал{% else %}Educational Portal{% endif %}</h1>
+    {% if user %}
+    <nav class="main-nav">
+        <a href="/dashboard" class="nav-link">{% if lang == 'uk' %}Головна{% else %}Home{% endif %}</a>
+
+        {% if user.role == 'teacher' %}
+            <a href="/calendar" class="nav-link">{% if lang == 'uk' %}Календар{% else %}Calendar{% endif %}</a>
+            <a href="/grades" class="nav-link">{% if lang == 'uk' %}Оцінки{% else %}Grades{% endif %}</a>
+            <a href="/homework" class="nav-link">{% if lang == 'uk' %}Домашні завдання{% else %}Homework{% endif %}</a>
+            <a href="/add_schedule" class="nav-link">{% if lang == 'uk' %}Додати розклад{% else %}Add Schedule{% endif %}</a>
+        {% else %}
+            <a href="/calendar" class="nav-link">{% if lang == 'uk' %}Розклад{% else %}Schedule{% endif %}</a>
+            <a href="/grades" class="nav-link">{% if lang == 'uk' %}Мої оцінки{% else %}My Grades{% endif %}</a>
+            <a href="/homework" class="nav-link">{% if lang == 'uk' %}Мої ДЗ{% else %}My Homework{% endif %}</a>
+        {% endif %}
+
+        <a href="/settings" class="nav-link">{% if lang == 'uk' %}Налаштування{% else %}Settings{% endif %}</a>
+        <a href="/logout" class="nav-link">{% if lang == 'uk' %}Вихід{% else %}Logout{% endif %}</a>
+
+        {% if lang == 'uk' %}
+            <a href="/set_language/en" class="lang-switch">English</a>
+        {% else %}
+            <a href="/set_language/uk" class="lang-switch">Українська</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<div id="notifications"></div>
+
+<script>
+    const socket = new WebSocket("ws://localhost:8000/ws/notifications");
+    socket.onmessage = function(event) {
+        const notification = document.getElementById('notifications');
+        notification.textContent = event.data;
+        notification.style.display = 'block';
+        setTimeout(() => notification.style.display = 'none', 5000);
+    };
+</script>
+</body>
+</html>

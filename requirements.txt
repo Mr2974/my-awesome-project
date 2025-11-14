@@ -1,0 +1,10 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+sqlalchemy==1.4.48
+jinja2==3.1.2
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+databases==0.6.1
+email-validator==1.3.1
+starlette==0.27.0
+itsdangerous

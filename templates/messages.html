@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  h2 {
+    color: #3b5bdb;
+    text-align: center;
+    margin: 40px 0 25px;
+    font-family: "Segoe UI", Roboto, sans-serif;
+  }
+
+  .message {
+    background-color: #f0f4ff;
+    border-left: 6px solid #3b5bdb;
+    padding: 15px 20px;
+    margin: 15px auto;
+    max-width: 700px;
+    border-radius: 10px;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    color: #1a1a1a;
+    box-shadow: 0 4px 8px rgba(59,91,219,0.1);
+  }
+
+  .message strong {
+    color: #2a44b7;
+    font-weight: 700;
+  }
+</style>
+
+<h2>Повідомлення</h2>
+<div class="message">
+    <strong>Вчитель Іванова:</strong> Завтра контрольна з математики.
+</div>
+<div class="message">
+    <strong>Адміністрація:</strong> Нагадуємо про батьківські збори в п’ятницю.
+</div>
+{% endblock %}

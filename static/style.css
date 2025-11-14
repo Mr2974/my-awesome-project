@@ -1,0 +1,115 @@
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fbfc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+header {
+    background-color: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+
+.main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+
+.main-nav .nav-link {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background-color: #e7ecf0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+}
+
+.main-nav .nav-link:hover,
+.main-nav .nav-link:focus {
+    background-color: #4a90e2;
+    color: #fff;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.5);
+}
+
+
+.main-nav .lang-switch {
+    margin-left: auto;
+    font-weight: 600;
+    color: #4a90e2;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 2px solid #4a90e2;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-nav .lang-switch:hover,
+.main-nav .lang-switch:focus {
+    background-color: #4a90e2;
+    color: #fff;
+    outline: none;
+}
+
+
+@media (max-width: 600px) {
+    .main-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .main-nav .lang-switch {
+        margin-left: 0;
+        align-self: flex-start;
+    }
+}
+
+
+main {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+#notifications {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.6);
+    font-weight: 600;
+    z-index: 10000;
+}

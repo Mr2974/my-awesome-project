@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .homework-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    border-top: 5px solid #a0c4ff;
+    font-family: "Segoe UI", Roboto, sans-serif;
+  }
+
+  h2 {
+    color: #3b5bdb;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+  }
+
+  form input[type="text"],
+  form input[type="date"],
+  form input[type="email"],
+  form textarea {
+    padding: 10px 15px;
+    border: 1px solid #ccd6f6;
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    transition: border-color 0.3s ease;
+  }
+
+  form textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  form input[type="file"] {
+    width: auto;
+  }
+
+  form input:focus,
+  form textarea:focus {
+    outline: none;
+    border-color: #3b5bdb;
+  }
+
+  form button {
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    align-self: center;
+  }
+
+  form button:hover {
+    background-color: #2a44b7;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  thead th {
+    background-color: #a0c4ff;
+    color: #1a1a1a;
+    padding: 12px 15px;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f7faff;
+  }
+
+  tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e1e8ff;
+    vertical-align: middle;
+  }
+
+  a {
+    color: #3b5bdb;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .submit-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .submit-form input[type="file"] {
+    padding: 3px;
+  }
+</style>
+
+<div class="homework-container">
+  <h2>{% if lang == 'uk' %}Домашні завдання{% else %}Homework{% endif %}</h2>
+
+  {% if user.role == 'teacher' %}
+  <form method="post" action="/add_homework">
+    <input type="text" name="title" placeholder="{% if lang == 'uk' %}Назва завдання{% else %}Title{% endif %}" required>
+    <textarea name="description" placeholder="{% if lang == 'uk' %}Опис завдання{% else %}Description{% endif %}" required></textarea>
+    <input type="date" name="due_date" required>
+    <input type="email" name="student_email" placeholder="{% if lang == 'uk' %}Email учня{% else %}Student email{% endif %}" required>
+    <button type="submit">{% if lang == 'uk' %}Додати завдання{% else %}Add Homework{% endif %}</button>
+  </form>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>{% if lang == 'uk' %}Назва{% else %}Title{% endif %}</th>
+        <th>{% if lang == 'uk' %}Опис{% else %}Description{% endif %}</th>
+        <th>{% if lang == 'uk' %}Крайній термін{% else %}Due date{% endif %}</th>
+        <th>{% if lang == 'uk' %}Файл{% else %}File{% endif %}</th>
+        {% if user.role == 'student' %}
+          <th>{% if lang == 'uk' %}Завантажити{% else %}Submit{% endif %}</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for hw in homeworks %}
+      <tr>
+        <td>{{ hw.title }}</td>
+        <td>{{ hw.description }}</td>
+        <td>{{ hw.due_date.strftime('%Y-%m-%d') }}</td>
+        <td>
+          {% if hw.submission_file %}
+            <a href="/uploads/{{ hw.submission_file }}">{% if lang == 'uk' %}Завантажити{% else %}Download{% endif %}</a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        {% if user.role == 'student' %}
+        <td>
+          {% if not hw.submission_file %}
+          <form method="post" action="/submit_homework" enctype="multipart/form-data" class="submit-form">
+            <input type="hidden" name="homework_id" value="{{ hw.id }}">
+            <input type="file" name="file" required>
+            <button type="submit">{% if lang == 'uk' %}Відправити{% else %}Submit{% endif %}</button>
+          </form>
+          {% else %}
+            {% if lang == 'uk' %}Відправлено{% else %}Submitted{% endif %}
+          {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="{% if user.role == 'student' %}5{% else %}4{% endif %}" style="text-align:center; padding:20px; color:#666;">
+          {% if lang == 'uk' %}Домашніх завдань поки немає.{% else %}No homework yet.{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

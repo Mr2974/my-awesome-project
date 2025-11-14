@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .grades-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    border-top: 5px solid #a0c4ff;
+    font-family: "Segoe UI", Roboto, sans-serif;
+  }
+
+  h2 {
+    color: #3b5bdb;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  form select,
+  form input {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccd6f6;
+    border-radius: 10px;
+    width: 180px;
+    transition: border-color 0.3s ease;
+  }
+
+  form select:focus,
+  form input:focus {
+    outline: none;
+    border-color: #3b5bdb;
+  }
+
+  form button {
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  form button:hover {
+    background-color: #2a44b7;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    background-color: #a0c4ff;
+    color: #1a1a1a;
+    padding: 12px 15px;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f7faff;
+  }
+
+  tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e1e8ff;
+  }
+</style>
+
+<div class="grades-container">
+  <h2>
+    {% if lang == 'uk' %}Оцінки{% else %}Grades{% endif %}
+  </h2>
+
+  {% if user.role == 'teacher' %}
+  <form method="post" action="/add_grade">
+      <!-- Выпадающий список предметов -->
+      <select name="subject" required>
+          <option value="math">{% if lang == 'uk' %}Математика{% else %}Math{% endif %}</option>
+          <option value="ukr">{% if lang == 'uk' %}Українська мова{% else %}Ukrainian{% endif %}</option>
+          <option value="eng">{% if lang == 'uk' %}Англійська мова{% else %}English{% endif %}</option>
+          <option value="history">{% if lang == 'uk' %}Історія{% else %}History{% endif %}</option>
+          <option value="science">{% if lang == 'uk' %}Природознавство{% else %}Science{% endif %}</option>
+      </select>
+
+      <!-- Выпадающий список оценок 12 → 1 -->
+      <select name="grade" required>
+          {% for i in range(12, 0, -1) %}
+            <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+      </select>
+
+      <input type="email" name="student_email" placeholder="{% if lang == 'uk' %}Email учня{% else %}Student email{% endif %}" required>
+      <button type="submit">{% if lang == 'uk' %}Виставити оцінку{% else %}Submit grade{% endif %}</button>
+  </form>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>{% if lang == 'uk' %}Предмет{% else %}Subject{% endif %}</th>
+        <th>{% if lang == 'uk' %}Оцінка{% else %}Grade{% endif %}</th>
+        {% if user.role == 'teacher' %}
+          <th>{% if lang == 'uk' %}Учень{% else %}Student{% endif %}</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for grade in grades %}
+      <tr>
+        <td>{{ grade.subject }}</td>
+        <td>{{ grade.grade }}</td>
+        {% if user.role == 'teacher' %}
+          <td>{{ grade.student_email }}</td>
+        {% endif %}
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="{% if user.role == 'teacher' %}3{% else %}2{% endif %}" style="text-align:center; padding:20px; color:#666;">
+          {% if lang == 'uk' %}Оцінок поки немає.{% else %}No grades yet.{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

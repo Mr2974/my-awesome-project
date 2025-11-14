@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .form-container {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    font-family: "Segoe UI", Roboto, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    color: #3b5bdb;
+    margin-bottom: 25px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    padding: 12px 15px;
+    border: 1px solid #ccd6f6;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #3b5bdb;
+  }
+
+  button {
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+    padding: 14px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #2a44b7;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+  }
+
+  a {
+    color: #3b5bdb;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .error {
+    color: #d9534f;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+</style>
+
+<div class="form-container">
+    <h2>Вхід у систему</h2>
+    {% if msg %}<p class="error">{{ msg }}</p>{% endif %}
+    <form method="post" action="/login">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Увійти</button>
+    </form>
+    <p>Немає акаунта? <a href="/register">Зареєструватися</a></p>
+</div>
+{% endblock %}
